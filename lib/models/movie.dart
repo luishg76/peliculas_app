@@ -10,7 +10,7 @@ class Movie {
     required this.originalTitle,
     required this.overview,
     required this.popularity,
-    required this.posterPath,
+    this.posterPath,
     this.releaseDate,
     required this.title,
     required this.video,
@@ -26,15 +26,19 @@ class Movie {
   String originalTitle;
   String overview;
   double popularity;
-  String posterPath;
+  String? posterPath;
   String? releaseDate;
   String title;
   bool video;
   double voteAverage;
   int voteCount;
 
-  get getPosterImg {
+  String get getPosterImg {
     return 'https://image.tmdb.org/t/p/w500${this.posterPath}';
+  }
+
+   String get getBackDropPath {
+    return 'https://image.tmdb.org/t/p/w500${this.backdropPath}';
   }
 
   get getTitle {
