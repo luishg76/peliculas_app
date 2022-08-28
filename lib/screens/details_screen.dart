@@ -18,7 +18,7 @@ class DetailsScreen extends StatelessWidget {
                  _OverView(movie.overview),
                  _OverView(movie.overview), 
                  _OverView(movie.overview),               
-                 CastingSlider(),
+                 CastingSlider(idmovie: movie.id),
                 ]
                ),
              ),      
@@ -36,7 +36,7 @@ class _CustomAppBar extends StatelessWidget{
   Widget build(BuildContext context) {
    return SliverAppBar(
           backgroundColor: Colors.indigo,
-          expandedHeight: 200.0,
+          expandedHeight: 300.0,
           floating: false,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(              

@@ -7,9 +7,10 @@ class MoviesProvider extends ChangeNotifier {
   String _baseUrl = 'api.themoviedb.org';
   String _lenguage = 'es-ES';
   int _page=0;
-  int _cantPage=0;
+  
   List<Movie> onNowMovies = [];
   List<Movie> onPopular = [];
+  Map<int,List<Cast>> movieCasts={};
 
   MoviesProvider() {
     getNowPlayingMovies();
@@ -39,6 +40,17 @@ class MoviesProvider extends ChangeNotifier {
       else
         onPopular = [...onPopular,...popularResponse.results];      
       notifyListeners();
+  }
+
+  Future<List<Cast>> getMovieCasts({required int idmovie}) async{
+    //Si contiene la lista de actores de la pelicula la retorno
+    if(movieCasts.containsKey(idmovie)) return movieCasts[idmovie]!;
+    //Si no contiene la lista de actores de la pelicula hago un petición
+    //http y la guardo en memoria    
+    final jsonData=await this._getJsonData('/3/movie/$idmovie/credits');
+    final movieCredits=MovieCredits.fromJson(jsonData);
+    movieCasts[idmovie]=movieCredits.cast;
+    return movieCredits.cast;
   }
   
 }
