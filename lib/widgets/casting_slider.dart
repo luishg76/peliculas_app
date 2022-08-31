@@ -37,8 +37,7 @@ class CastingSlider extends StatelessWidget {
                 ), 
              );      
           }
-      );
-    
+      );    
   }
 }
 

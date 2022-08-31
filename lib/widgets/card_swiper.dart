@@ -38,6 +38,7 @@ class CardSwiper extends StatelessWidget {
             child: FadeInImage(
               placeholder: AssetImage('assets/giphy.gif'),
               image: NetworkImage(movie.getPosterImg),
+              height: 550,
               fit: BoxFit.cover,
             ),
           );
