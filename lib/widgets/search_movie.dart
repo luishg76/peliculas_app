@@ -26,7 +26,7 @@ class SearchMovie extends SearchDelegate{
   @override
   Widget buildResults(BuildContext context) {
     
-    return Text('builResults:');
+    return Text('builResults:10');
   }
 
   @override
