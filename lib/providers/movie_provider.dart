@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:peliculas_app/models/models.dart';
@@ -11,6 +13,7 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> onNowMovies = [];
   List<Movie> onPopular = [];
   Map<int,List<Cast>> movieCasts={};
+  List<Movie> onFound=[];
 
   MoviesProvider() {
     getNowPlayingMovies();
@@ -18,7 +21,7 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<String> _getJsonData(String segment, [int page=1])async {
-      var url = Uri.https(_baseUrl,segment,
+      final url = Uri.https(_baseUrl,segment,
         {'api_key': _apiKey, 'lenguage': _lenguage, 'page':'$page'});
       final response = await http.get(url);
       if (response.statusCode == 200)return response.body;
@@ -51,6 +54,14 @@ class MoviesProvider extends ChangeNotifier {
     final movieCredits=MovieCredits.fromJson(jsonData);
     movieCasts[idmovie]=movieCredits.cast;
     return movieCredits.cast;
+  }
+
+  Future<List<Movie>> getMoviesSearch({required String movietitle}) async{
+     final url = Uri.https(_baseUrl,'/3/search/movie',
+        {'api_key': _apiKey, 'lenguage': _lenguage, 'query':movietitle});
+      final response = await http.get(url);
+      if (response.statusCode == 200)return MoviesFound.fromJson(response.body).results;
+      return [];
   }
   
 }
