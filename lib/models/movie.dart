@@ -31,14 +31,14 @@ class Movie {
   String title;
   bool video;
   double voteAverage;
-  int voteCount;
+  int voteCount;  
 
   String get getPosterImg {
-    return 'https://image.tmdb.org/t/p/w500${this.posterPath}';
+    return this.posterPath!=null ? 'https://image.tmdb.org/t/p/w500${this.posterPath}':'https://i.stack.imgur.com/GNhx0.png';
   }
 
    String get getBackDropPath {
-    return 'https://image.tmdb.org/t/p/w500${this.backdropPath}';
+    return this.backdropPath!=null ? 'https://image.tmdb.org/t/p/w500${this.backdropPath}':'https://i.stack.imgur.com/GNhx0.png';
   }
 
   get getTitle {

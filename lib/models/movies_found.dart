@@ -18,6 +18,7 @@ class MoviesFound {
     List<Movie> results;
     int totalPages;
     int totalResults;
+    
 
     factory MoviesFound.fromJson(String str) => MoviesFound.fromMap(json.decode(str));
 

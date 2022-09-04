@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:peliculas_app/providers/movie_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../models/models.dart';
 
 class CastingSlider extends StatelessWidget {
@@ -13,7 +11,7 @@ class CastingSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     final movieProvider=Provider.of<MoviesProvider>(context,listen: false);
     return FutureBuilder(
-      future:movieProvider.getMovieCasts(idmovie: idmovie) ,
+      future:movieProvider.getMovieCasts(idmovie: idmovie),
       builder: (_,AsyncSnapshot<List<Cast>> snapshot)
       {
         if(!snapshot.hasData)
@@ -31,7 +29,7 @@ class CastingSlider extends StatelessWidget {
                 child: Expanded(
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount:10,
+                      itemCount:lstcast.length,
                       itemBuilder: (_, index)=>_CastCard(actor:lstcast[index]),                  
                     ),
                 ), 
@@ -57,7 +55,7 @@ class _CastCard extends StatelessWidget{
                   borderRadius: BorderRadius.circular(10),
                   child: FadeInImage(
                     placeholder: AssetImage('assets/300x400.png'),
-                    image:NetworkImage(actor.getProfilePath),
+                    image: NetworkImage(actor.getProfilePath),
                     height: 150,
                     fit: BoxFit.cover,
                     ),
