@@ -31,7 +31,9 @@ class Movie {
   String title;
   bool video;
   double voteAverage;
-  int voteCount;  
+  int voteCount;
+
+  String? heroId;  
 
   String get getPosterImg {
     return this.posterPath!=null ? 'https://image.tmdb.org/t/p/w500${this.posterPath}':'https://i.stack.imgur.com/GNhx0.png';

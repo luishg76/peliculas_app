@@ -61,13 +61,17 @@ class SearchMovie extends SearchDelegate{
   }
 
   Widget _MovieItems(BuildContext context, Movie movie){
+      movie.heroId='search-${movie.id}';
       return ListTile(
-            leading: FadeInImage(
-              image:NetworkImage(movie.getPosterImg), 
-              placeholder: AssetImage('assets/300x400.png'),
-              width: 30,
-              fit: BoxFit.contain,
-              ),
+            leading: Hero(
+              tag: movie.heroId!,
+              child: FadeInImage(
+                image:NetworkImage(movie.getPosterImg), 
+                placeholder: AssetImage('assets/300x400.png'),
+                width: 30,
+                fit: BoxFit.contain,
+                ),
+            ),
             title:Text(movie.title,maxLines: 1,overflow: TextOverflow.ellipsis,),
             onTap: () =>
             Navigator.pushNamed(context, 'details', arguments: movie),
