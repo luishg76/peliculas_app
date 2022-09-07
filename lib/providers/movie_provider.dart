@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:peliculas_app/helpers/debouncer.dart';
 import 'package:peliculas_app/models/models.dart';
 
 class MoviesProvider extends ChangeNotifier {
@@ -14,6 +16,14 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> onPopular = [];
   Map<int,List<Cast>> movieCasts={};
   List<Movie> onFound=[];
+
+  final StreamController<List<Movie>> _suggestionStreamController=new StreamController.broadcast();
+
+  Stream<List<Movie>> get suggestionStream{
+    return _suggestionStreamController.stream;
+  }
+
+  final mydebouncer=Debouncer<String>(duration:Duration(milliseconds: 500));
 
   MoviesProvider() {
     getNowPlayingMovies();
@@ -55,6 +65,23 @@ class MoviesProvider extends ChangeNotifier {
     movieCasts[idmovie]=movieCredits.cast;
     return movieCredits.cast;
   }
+
+  //Función qeu asigna el query al stream
+    void setSuggestionsByQuery(String query) 
+    {
+       mydebouncer.value='';
+       mydebouncer.onValue=(value) async {
+         final result=await getMoviesSearch(movietitle: query);
+         this._suggestionStreamController.add(result);
+       };
+      
+      final timer=Timer.periodic(Duration(milliseconds: 300), (_){
+        mydebouncer.value=query;
+      });
+      
+    Future.delayed(Duration(milliseconds: 301)).then((_) => timer.cancel());
+
+    }
 
   Future<List<Movie>> getMoviesSearch({required String movietitle}) async{
      final url = Uri.https(_baseUrl,'/3/search/movie',

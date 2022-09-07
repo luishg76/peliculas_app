@@ -31,11 +31,15 @@ class SearchMovie extends SearchDelegate{
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    
     if(query.isEmpty) return _emptycontainer();
    
    final movies_found=Provider.of<MoviesProvider>(context);
-   return FutureBuilder(
-      future: movies_found.getMoviesSearch(movietitle: query),
+   //Asigno el query al stream
+   movies_found.setSuggestionsByQuery(query);
+   
+   return StreamBuilder(//FutureBuilder
+      stream:movies_found.suggestionStream,//movies_found.getMoviesSearch(movietitle: query),
       builder:(_,asyncsapshot)
       {
         if(!asyncsapshot.hasData) return _emptycontainer();
@@ -78,4 +82,5 @@ class SearchMovie extends SearchDelegate{
 
       );
     }
+  
   } 
